@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db';
 import apiRoutes from './routes/api';
-import './services/dataPolling';
+
+import { pollData } from './services/dataPolling'; // Import the pollData function
 
 const app = express();
 
@@ -16,7 +17,6 @@ app.use(express.json());
 // Routes
 app.use('/api', apiRoutes);
 
-
-
+// Start polling data
+pollData();
 export default app;
-

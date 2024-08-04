@@ -1,3 +1,4 @@
+// src/redux/reducers/index.ts
 import { combineReducers } from 'redux';
 import priceReducer from './priceReducer';
 
@@ -6,5 +7,4 @@ const rootReducer = combineReducers({
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
-
 export default rootReducer;
