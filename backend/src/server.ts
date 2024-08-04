@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 // const PORT = process.env.PORT || 4000;
 // const wsPort = process.env.WS_PORT || 8080;
 const PORT = Number(process.env.PORT) || 4000;
-const wsPort = Number(process.env.WS_PORT) || 8080;
+const wsPort = Number(process.env.WS_PORT) || 80;
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

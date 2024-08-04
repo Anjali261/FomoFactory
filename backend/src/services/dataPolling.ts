@@ -25,11 +25,24 @@ const fetchAndSaveData = async (symbol: string) => {
   try {
     console.log(`Polling data for ${symbol}...`);
     const response = await axios.get(`${API_URL}?ids=${symbol}&vs_currencies=usd`);
-    const price = response.data[symbol].usd;
+    const price = response.data[symbol]?.usd;
+
+    if (price) {
+      // Save data to MongoDB
+      const newData = new PriceData({ symbol, price });
+      await newData.save();
+
+      // Notify WebSocket clients
+      notifyClients({ symbol, price, timestamp: new Date() });
+
+      console.log(`Data for ${symbol} saved successfully.`);
+    } else {
+      console.error(`No price data found for ${symbol}`);
+    }
 
     // Save data to MongoDB
-    await PriceData.create({ symbol, price });
-    console.log(`Data for ${symbol} saved successfully.`);
+    // await PriceData.create({ symbol, price });
+    // console.log(`Data for ${symbol} saved successfully.`);
     
     // Add a delay between requests
     await new Promise(resolve => setTimeout(resolve, jitter(BASE_DELAY)));
@@ -61,3 +74,13 @@ const pollData = async () => {
 // Poll data at regular intervals
 setInterval(pollData, POLL_INTERVAL);
 
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8080 });
+
+const notifyClients = (data: any) => {
+  wss.clients.forEach((client: any) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
+}
