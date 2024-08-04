@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 interface DataState {
-  data: { price: number; createdAt: string }[]; // Ensure the shape of data is correct
+  data: { price: number; createdAt: string }[];
   symbol: string;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
@@ -25,7 +25,7 @@ export const fetchData = createAsyncThunk(
     // Map data correctly based on your API response
     return response.data.map((item: any) => ({
       price: item.price, 
-      createdAt: item.timestamp // Ensure this matches the field from API response
+      createdAt: item.timestamp 
     }));
   }
 );

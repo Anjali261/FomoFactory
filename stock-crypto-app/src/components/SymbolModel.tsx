@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSymbol } from '../store/dataSlice';
 import { AppDispatch } from '../store/store';
-import './SymbolModal.css'; // Import the CSS file for styling
+import './SymbolModal.css'; 
 
 interface ModalProps {
   isOpen: boolean;
